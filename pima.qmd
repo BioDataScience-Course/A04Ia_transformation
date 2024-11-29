@@ -93,7 +93,7 @@ select_answer(r"-{
 ___
 ```
 
-<!--% Réalisez un graphique qui permet de dénombrer les quatre niveaux de la variable `bmi_cat` avec des aplats de couleurs pour différencier les personnes diabétiques ou non. Éliminez les valeurs manquantes pour la variable `bmi_cat` uniquement. Assurez-vous que le label en X soit "Catégorie d'IMC" et que le label en Y soit "Effectifs". -->
+<!--% Réalisez un graphique qui permet de dénombrer les quatre niveaux de la variable `bmi_cat` avec des aplats de couleurs pour différencier les personnes diabétiques ou non. Éliminez les valeurs manquantes pour la variable `bmi_cat` uniquement. Employez le chaînage des instructions afin d'éviter de créer un nouveau tableau dans votre environnement. Assurez-vous que le label en X soit "Catégorie d'IMC" et que le label en Y soit "Effectifs". -->
 
 ```{r pcount, record='RNCS'}
 ___
