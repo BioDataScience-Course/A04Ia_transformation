@@ -16,7 +16,10 @@ lang: fr
 if (!"tools:tests" %in% search())
   source(here::here("tests/tools_tests.R"), attach(NULL, name = "tools:tests"))
 
-# Configure SciViews::R environment
+# Configure Knitr pour utiliser AGG comme périphérique graphique
+knitr::opts_chunk$set(dev = "ragg_png")
+
+# Configure l’environnement SciViews::R
 SciViews::R(lang = "fr")
 ```
 
@@ -26,7 +29,7 @@ Les mésocosmes sont des récifs artificiels qui permettent d'étudier entre aut
 
 # Analyses
 
-<!--% Complétez les instructions ci-dessous pour importez les données depuis le lien fourni dans le README.md. -->
+<!--% Complétez les instructions ci-dessous pour importer les données depuis le lien fourni dans le README.md. -->
 
 ```{r cimport, record='RODFS', object='coral'}
 # Création du dossier data/cache/
@@ -49,21 +52,21 @@ select_answer(r"-{
 [] -   Il n'y a aucune donnée manquante.
 [] -   Il y a plusieurs valeurs manquantes dans ce jeu de données.
 
-[] -   Les variables quantitatives temperature, gain, gain_std ont des distributions unimodales.
-[] -   Les variables quantitatives temperature, gain, gain_std ont des distributions bimodales.
-[] -   Les variables quantitatives temperature, gain, gain_std ont des distributions multimodales.
+[] -   Les variables quantitatives `temperature`, `gain`, `gain_std` ont des distributions unimodales.
+[] -   Les variables quantitatives `temperature`, `gain`, `gain_std` ont des distributions bimodales.
+[] -   Les variables quantitatives `temperature`, `gain`, `gain_std` ont des distributions multimodales.
 
-[] - La variable id est reconnue automatiquement comme une variable caractère.
-[] - La variable id est reconnue automatiquement comme une variable facteur.
-[] - La variable id est reconnue automatiquement comme une variable numérique.
+[] - La variable `id` est reconnue automatiquement comme une variable caractère.
+[] - La variable `id` est reconnue automatiquement comme une variable facteur.
+[] - La variable `id` est reconnue automatiquement comme une variable numérique.
 
-[] - Les variables salinity et temperature ne comprennent qu’une seule valeur pour chaque variable.
-[] - Les variables salinity et temperature comprennent une multitude de valeurs pour chaque variable.
-[] - La variable salinity ne comprend qu’une seule valeur alors que la variable température en comprend plusieurs.
-[] - La variable temperature ne comprend qu’une seule valeur alors que la variable salinity en comprend plusieurs.
+[] - Les variables `salinity` et `temperature` ne comprennent qu’une seule valeur pour chaque variable.
+[] - Les variables `salinity` et `temperature` comprennent une multitude de valeurs pour chaque variable.
+[] - La variable `salinity` ne comprend qu’une seule valeur, alors que la variable `temperature` en comprend plusieurs.
+[] - La variable `temperature` ne comprend qu’une seule valeur, alors que la variable `salinity` en comprend plusieurs.
 
-[] - Les variables localisation et species sont reconnues automatiquement comme des variables caractères. Il faut les convertir en variable facteur.
-[] - Les variables localisation et species sont reconnues automatiquement comme des variables facteurs.
+[] - Les variables `localisation` et `species` sont reconnues automatiquement comme des variables caractères. Il faut les convertir en variable facteur.
+[] - Les variables `localisation` et `species` sont reconnues automatiquement comme des variables facteurs.
 
 [] -  Après un premier téléchargement du tableau de données, les données seront chargées à partir de data/cache/corals.csv.
 [] -  À chaque exécution de l'instruction read(), les données sont téléchargées depuis internet et sauvées localement dans le dossier data/cache/.
@@ -72,7 +75,7 @@ select_answer(r"-{
 [] - Il n'y a pas de page d'aide associée à ces données.}-")
 ```
 
-<!--% Transformez les variables `localisation`, `species` et `id` en variables facteurs et assignez le résultat à `coral`.  Affichez ensuite les niveaux pour chacune des trois variables. -->
+<!--% Transformez les variables `localisation`, `species` et `id` en variables facteurs et assignez le résultat à `coral`. Affichez ensuite les niveaux pour chacune des trois variables. -->
 
 ```{r cfact, record='RODFS', object='coral'}
 ___
@@ -84,21 +87,21 @@ ___
 
 ```{r cfactcomment, output='asis'}
 select_answer(r"-{
-[] -  La variable localisation a 2 niveaux (s.hystrix et s.pistillata).
-[] -  La variable localisation a 4 niveaux (A0, A2, B0 et B2).
-[] -  La variable localisation a 40 niveaux, chaque valeur est unique.
+[] -  La variable `localisation` a 2 niveaux (s.hystrix et s.pistillata).
+[] -  La variable `localisation` a 4 niveaux (A0, A2, B0 et B2).
+[] -  La variable `localisation` a 40 niveaux, chaque valeur est unique.
 
-[] -  La variable species a 2 niveaux (s.hystrix et s.pistillata).
-[] -  La variable species a 4 niveaux (A0, A2, B0 et B2).
-[] -  La variable species a 40 niveaux, chaque valeur est unique.
+[] -  La variable `species` a 2 niveaux (s.hystrix et s.pistillata).
+[] -  La variable `species` a 4 niveaux (A0, A2, B0 et B2).
+[] -  La variable `species` a 40 niveaux, chaque valeur est unique.
 
-[] -  La variable id a 2 niveaux (s.hystrix et s.pistillata).
-[] -  La variable id a 4 niveaux (A0, A2, B0 et B2).
-[] -  La variable id a 40 niveaux, chaque valeur est unique.
+[] -  La variable `id` a 2 niveaux (s.hystrix et s.pistillata).
+[] -  La variable `id` a 4 niveaux (A0, A2, B0 et B2).
+[] -  La variable `id` a 40 niveaux, chaque valeur est unique.
 }-")
 ```
 
-<!-- Réalisez un tableau résumé du nombre d'individus par espèce et par aquarium. Ce tableau doit comprendre les colonne `species`, `localisation` et `n`. Assignez votre résultat à `coral_count`. Formatez votre résultat avec la fonction tabularise(). -->
+<!-- Réalisez un tableau résumé du nombre d'individus par espèce et par aquarium. Ce tableau doit comprendre les colonnes `species`, `localisation` et `n`. Assignez votre résultat à `coral_count`. Formatez votre résultat avec la fonction tabularise(). -->
 
 La répartition des espèces par aquariums est présentée dans le tableau ci-dessous.
 

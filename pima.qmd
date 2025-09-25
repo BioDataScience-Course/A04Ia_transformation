@@ -16,7 +16,10 @@ lang: fr
 if (!"tools:tests" %in% search())
   source(here::here("tests/tools_tests.R"), attach(NULL, name = "tools:tests"))
 
-# Configure SciViews::R environment
+# Configure Knitr pour utiliser AGG comme périphérique graphique
+knitr::opts_chunk$set(dev = "ragg_png")
+
+# Configure l’environnement SciViews::R
 SciViews::R(lang = "fr")
 ```
 
@@ -26,21 +29,21 @@ La prévalence de diabète de type 2 est particulièrement élevée chez les Ind
 
 # Analyses
 
-<!--% Importez les données Pima.tr2 et Pima.te provenant toutes les deux du package {MASS}. Les deux tableaux sont combiné à l'aide de la fonction `sbind_rows()`. -->
+<!--% Importez les données Pima.tr2 et Pima.te provenant toutes les deux du package {MASS}. Les deux tableaux sont combinés à l'aide de la fonction `sbind_rows()`. -->
 
 ```{r pimport, record='RODFS', object='pima'}
-pima <- sbind_rows(
+pima <- bind_rows_(
   read(___), 
   read(___))
 
 # La suite est complétée pour vous
-# Renommer variable
-pima <- srename(pima, n_pregnant = npreg, glucose = glu, diastolic = bp,
-  triceps = skin, dpf = ped, diabete = type)
+# Renommer les variables
+pima <- rename_(pima, n_pregnant = 'npreg', glucose = 'glu', diastolic = 'bp',
+  triceps = 'skin', dpf = 'ped', diabete = 'type')
 
 # Remplacer Yes/No en oui/non pour diabete
-pima <- smutate(pima,
-  diabete = factor(ifelse(diabete == "Yes", "oui", "non")))
+pima <- mutate_(pima,
+  diabete = ~factor(ifelse(diabete == "Yes", "oui", "non")))
 
 # Labels et unités
 pima <- labelise(pima,
@@ -79,10 +82,10 @@ select_answer(r"-{
 
 [] -  Il n'y a aucune donnée manquante.
 [] -   Il y a plusieurs valeurs manquantes dans ce jeu de données. La variable qui contient le plus grand nombre de valeurs manquantes est la variable `diabete`.
-[] -   Il y a plusieurs valeurs manquantes dans ce jeu de données. La variable qui contient le plus grand nombre de valeurs manquante est la variable `triceps`.
+[] -   Il y a plusieurs valeurs manquantes dans ce jeu de données. La variable qui contient le plus grand nombre de valeurs manquantes est la variable `triceps`.
 
 [] -  La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Cette variable doit être convertie en **double**.
-[] -  La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Le nombre d'enfant ne peut prendre que des valeurs entières.}-")
+[] -  La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Le nombre d'enfants ne peut prendre que des valeurs entières.}-")
 ```
 
 <!-- Définissez une nouvelle colonne `bmi_cat` dans le tableau `pima` avec la division en classe de la variable `bmi` avec les niveaux suivants : "sous-poids" strictement inférieur à 18.5, "poids normal" de 18.5 à 25 (non inclus), "surpoids" de 25 à 30 (non inclus), et "obèse" au-dessus de 30 (compris). Par exemple, une personne à IMC 25 est donc en surpoids. Cette nouvelle variable doit être de type facteur ordonné. -->

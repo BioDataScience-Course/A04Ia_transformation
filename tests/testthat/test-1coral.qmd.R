@@ -117,7 +117,7 @@ test_that("Chunks 'cfact' & 'cfactcomment' : Conversion en facteur", {
   expect_true(is_identical_to_ref("cfactcomment"))
   # L'interprétation des tableaux de description des données est (partiellement)
   # fausse
-  # Vous devez cochez les phrases qui décrivent le graphique d'un 'x' entre les
+  # Vous devez cocher les phrases qui décrivent le graphique d'un 'x' entre les
   # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
   # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
   # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus
@@ -160,7 +160,7 @@ test_that("Chunks 'cclean' : Réduction du tableau coral", {
 test_that("Chunks 'ctab' & 'ctabcomment' : Tableau résumé par aquariums et espèces", {
   expect_true(is_identical_to_ref("ctab", "names"))
   # Les colonnes dans le tableau `coral_tab` ne sont pas celles attendues
-  # Avez-vous bien respecté les noms des colonnes comme demandé dans la consignes.
+  # Avez-vous bien respecté les noms des colonnes comme demandé dans la consigne ?
 
   expect_true(is_identical_to_ref("ctab", "classes"))
   # La nature des variables (classe) dans le tableau `coral_tab` est incorrecte
@@ -172,7 +172,7 @@ test_that("Chunks 'ctab' & 'ctabcomment' : Tableau résumé par aquariums et esp
 
   expect_true(is_identical_to_ref("ctabcomment"))
   # L'interprétation du tableau résumé est (partiellement) fausse
-  # Vous devez cochez les phrases qui décrivent le graphique d'un 'x' entre les
+  # Vous devez cocher les phrases qui décrivent le graphique d'un 'x' entre les
   # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
   # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
   # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus

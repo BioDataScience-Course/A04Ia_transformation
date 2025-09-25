@@ -9,7 +9,7 @@ test_that("Le bloc-notes est-il compilé en un fichier final HTML ?", {
   # Vérifiez aussi que ce rendu se réalise sans erreur, sinon, lisez le message
   # qui s'affiche dans l'onglet 'Travaux' et corrigez ce qui ne va pas dans
   # votre document avant de réaliser à nouveau un rendu HTML.
-  # IL EST TRES IMPORTANT QUE VOTRE DOCUMENT COMPILE ! C'est tout de même le but
+  # IL EST TRÈS IMPORTANT QUE VOTRE DOCUMENT COMPILE ! C'est tout de même le but
   # de votre analyse que d'obtenir le document final HTML.
 
   expect_true(is_rendered_current("pima.qmd"))
@@ -69,7 +69,7 @@ test_that("L'entête YAML a-t-il été complété ?", {
   # majuscule en début de nom et de prénom, et des minuscules ensuite.
 })
 
-test_that("Chunks 'pimport', 'pskim' & 'pskimcomment' : importation des données", {
+test_that("Chunks 'pimport' & 'pskimcomment' : importation des données", {
   expect_true(is_identical_to_ref("pimport", "names"))
   # Les colonnes dans le tableau `pima` importé ne sont pas celles attendues
   # Votre jeu de données de départ n'est pas correct. Vérifiez le chunk
@@ -86,7 +86,7 @@ test_that("Chunks 'pimport', 'pskim' & 'pskimcomment' : importation des données
   expect_true(is_identical_to_ref("pskimcomment"))
   # L'interprétation des tableaux de description des données est (partiellement)
   # fausse
-  # Vous devez cochez les phrases qui décrivent le graphique d'un 'x' entre les
+  # Vous devez cocher les phrases qui décrivent le graphique d'un 'x' entre les
   # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
   # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
   # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus
@@ -112,7 +112,7 @@ test_that("Chunks 'pcount' & 'pcountcomment' : graphique en barres des catégori
 
   expect_true(is_identical_to_ref("pcountcomment"))
   # L'interprétation du graphique en barres est (partiellement) fausse
-  # Vous devez cochez les phrases qui décrivent le graphique d'un 'x' entre les
+  # Vous devez cocher les phrases qui décrivent le graphique d'un 'x' entre les
   # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
   # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
   # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus
