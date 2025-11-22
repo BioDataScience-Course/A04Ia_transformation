@@ -1,10 +1,10 @@
-# Importation et remaniement des données
+# SDD I module 4 : Importation et remaniement des données
 
 Ce projet nécessite d'avoir assimilé l'ensemble des notions du quatrième module du cours de science des données biologiques 1. Il correspond au dépôt GitHub <https://github.com/BioDataScience-Course/A04Ia_transformation>. Il est distribué sous licence [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## Objectifs
 
-Ceci est **individuel**, **court** et **cadré**. Il permet de démontrer que vous avez acquis les compétences suivantes :
+Ce projet est **individuel**, **court** et **cadré**. Il permet de démontrer que vous avez acquis les compétences suivantes :
 
 -   Être capable d'importer des données depuis différents formats et différentes sources avec la fonction `read()`.
 
@@ -36,4 +36,8 @@ Le jeu de données reprend des mesures de croissance de différentes espèces de
 
 ### Cas de diabète chez des femmes PIMA
 
-Complétez le fichier `pima.qmd`. Le jeu de données employé provient du package {MASS}. Vous avez à votre disposition une page d'aide pour mieux appréhender les variables de ce dernier.
+Complétez le fichier `pima.qmd`. Le jeu de données employé provient du package {MASS}. Vous avez à votre disposition une page d'aide pour mieux appréhender les variables de ce dernier (`?MASS::Pima.tr2`).
+
+## Utilisation de l’IA
+
+Dans le cadre de votre travail, vous avez le droit d’être aidé par l’intelligence artificielle. Le chatbot SciViews est disponible dans votre RStudio sur Saturn Cloud via l’addin Help. Il répond aux questions concernant le langage R, les statistiques et la science des données.
