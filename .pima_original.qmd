@@ -9,6 +9,8 @@ format:
     toc: true
 editor: visual
 lang: fr
+svbox: 2026
+vm: "Ubuntu 24.04.3 LTS"
 ---
 
 ```{r setup, include=FALSE}
@@ -27,9 +29,27 @@ SciViews::R(lang = "fr")
 
 La prévalence de diabète de type 2 est particulièrement élevée chez les Indiens Pimas en Arizona. Nous allons ici explorer et décrire des données relatives à cette population d'Amérindiens.
 
+# Matériel et méthodes
+
+Les données proviennent des tableaux `Pima.tr2` et `Pima.te` du package {MASS}. Les variables sont décrites dans la page d'aide `?MASS::Pima.tr2`.
+
+L'analyse est réalisée dans la [SciViews Box `r rmarkdown::metadata$svbox`](https://www.sciviews.org/software/svbox/) dans [Saturn Cloud](https://saturncloud.io) (`r rmarkdown::metadata$vm`) avec le [logiciel R](https://www.r-project.org) (`r R.version.string`). Le package {chart} version `r packageVersion("chart")` est utilisé pour réaliser les graphiques.
+
+## Déclaration sur l'utilisation de l'IA
+
+<!--% Spécifiez si vous avez employé l'intelligence artificielle dans votre projet. -->
+
+```{r ai_comment, output='asis'}
+select_answer(r"-{
+[] -   Ce document a été rédigé en étant assisté par l'Intelligence Artificielle.
+[] -   Ce document a été rédigé sans recours à l'Intelligence Artificielle.}-")
+```
+
+<!-- Précisez ci-dessous l'utilisation que vous avez faite de l'IA. Citez le modèle utilisé. -->
+
 # Analyses
 
-<!--% Importez les données Pima.tr2 et Pima.te provenant toutes les deux du package {MASS}. Les deux tableaux sont combinés à l'aide de la fonction `sbind_rows()`. -->
+<!--% Importez les données Pima.tr2 et Pima.te provenant toutes les deux du package {MASS}. Les deux tableaux sont combinés à l'aide de la fonction `bind_rows_()`. -->
 
 ```{r pimport, record='RODFS', object='pima'}
 pima <- bind_rows_(
@@ -75,20 +95,20 @@ ___
 
 ```{r pskimcomment, output='asis'}
 select_answer(r"-{
-[] - Ce tableau comprend une variable quantitative ordonnée et sept variables qualitatives.
-[] - Ce tableau comprend une variable quantitative non ordonnée et sept variables qualitatives.
-[] - Ce tableau comprend une variable qualitative non ordonnée et sept variables quantitatives.
-[] - Ce tableau comprend une variable qualitative ordonnée et sept variables quantitatives.
+[] -   Ce tableau comprend une variable quantitative ordonnée et sept variables qualitatives.
+[] -   Ce tableau comprend une variable quantitative non ordonnée et sept variables qualitatives.
+[] -   Ce tableau comprend une variable qualitative non ordonnée et sept variables quantitatives.
+[] -   Ce tableau comprend une variable qualitative ordonnée et sept variables quantitatives.
 
-[] -  Il n'y a aucune donnée manquante.
+[] -   Il n'y a aucune donnée manquante.
 [] -   Il y a plusieurs valeurs manquantes dans ce jeu de données. La variable qui contient le plus grand nombre de valeurs manquantes est la variable `diabete`.
 [] -   Il y a plusieurs valeurs manquantes dans ce jeu de données. La variable qui contient le plus grand nombre de valeurs manquantes est la variable `triceps`.
 
-[] -  La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Cette variable doit être convertie en **double**.
-[] -  La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Le nombre d'enfants ne peut prendre que des valeurs entières.}-")
+[] -   La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Cette variable doit être convertie en **double**.
+[] -   La variable `n_pregnant` est reconnue dans R comme une variable **integer**. Le nombre de grossesses ne peut prendre que des valeurs entières.}-")
 ```
 
-<!-- Définissez une nouvelle colonne `bmi_cat` dans le tableau `pima` avec la division en classe de la variable `bmi` avec les niveaux suivants : "sous-poids" strictement inférieur à 18.5, "poids normal" de 18.5 à 25 (non inclus), "surpoids" de 25 à 30 (non inclus), et "obèse" au-dessus de 30 (compris). Par exemple, une personne à IMC 25 est donc en surpoids. Cette nouvelle variable doit être de type facteur ordonné. -->
+<!--% Définissez une nouvelle colonne `bmi_cat` dans le tableau `pima` avec la division en classe de la variable `bmi` avec les niveaux suivants : "sous-poids" strictement inférieur à 18.5, "poids normal" de 18.5 à 25 (non inclus), "surpoids" de 25 à 30 (non inclus), et "obèse" au-dessus de 30 (compris). Par exemple, une personne à IMC 25 est donc en surpoids. Cette nouvelle variable doit être de type facteur ordonné. -->
 
 <!--# Un addin existe dans RStudio pour vous aider à faire ces catégories. -->
 
@@ -104,19 +124,19 @@ ___
 
 ```{r pcountcomment, output='asis'}
 select_answer(r"-{
-[] -  Les individus les plus représentés sont les obèses.
-[] -  Les individus les plus représentés sont en sous-poids.
-[] -  Les individus sont répartis de manière égale entre les quatre catégories d'IMC.
+[] -   Les individus les plus représentés sont les obèses.
+[] -   Les individus les plus représentés sont en sous-poids.
+[] -   Les individus sont répartis de manière égale entre les quatre catégories d'IMC.
 
-[] -  On dénombre deux fois plus d’Indiennes Pima en surpoids qu'en poids normal.
-[] -  On dénombre deux fois plus d’indiennes Pima de poids normaux qu’en surpoids.
+[] -   On dénombre deux fois plus d’Indiennes Pima en surpoids qu'en poids normal.
+[] -   On dénombre deux fois plus d’Indiennes Pima de poids normal qu’en surpoids.
 
-[] - La proportion de diabétiques dans chaque catégorie d'IMC est stable.
-[] - La proportion de diabétiques augmente dans les catégories d'IMC du sous-poids vers l'obésité.
-[] - La proportion de diabétiques diminue dans les catégories d'IMC du sous-poids vers l'obésité.}-")
+[] -   La proportion de diabétiques dans chaque catégorie d'IMC est stable.
+[] -   La proportion de diabétiques augmente dans les catégories d'IMC du sous-poids vers l'obésité.
+[] -   La proportion de diabétiques diminue dans les catégories d'IMC du sous-poids vers l'obésité.}-")
 ```
 
-<!-- Éliminez les individus en sous-poids et normaux selon l'IMC. Nommez votre nouveau tableau `pima_sub`. Éliminez également les niveaux inutiles de la variable `bmi_cat`. -->
+<!--% Éliminez les individus en sous-poids et normaux selon l'IMC. Nommez votre nouveau tableau `pima_sub`. Éliminez également les niveaux inutiles de la variable `bmi_cat`. -->
 
 ```{r psub, record='RODFS', object='pima_sub'}
 ___
@@ -131,8 +151,22 @@ pima_sub %>.%
 tabularise(pima_tab, auto.labs = ___)
 ```
 
-<!--% Interprétez le tableau : proposez deux éléments d'interprétation sous la forme d'une liste. -->
+<!--% Interprétez le tableau en sélectionnant les phrases correctes. -->
 
--   ...
+```{r ptabcomment, output='asis'}
+select_answer(r"-{
+[] -   Le glucose sanguin médian est plus élevé chez les Indiennes diabétiques que chez les non diabétiques, en surpoids comme obèses.
+[] -   Le glucose sanguin médian est plus faible chez les Indiennes diabétiques que chez les non diabétiques, en surpoids comme obèses.
+[] -   Le glucose sanguin médian est identique chez les Indiennes diabétiques et non diabétiques.
 
--   ...
+[] -   La pression diastolique médiane est plus faible chez les Indiennes obèses que chez celles en surpoids, qu'elles soient diabétiques ou non.
+[] -   La pression diastolique médiane est plus élevée chez les Indiennes obèses que chez celles en surpoids, qu'elles soient diabétiques ou non.
+
+[] -   La valeur médiane de `dpf` la plus élevée s'observe chez les Indiennes en surpoids non diabétiques.
+[] -   La valeur médiane de `dpf` la plus élevée s'observe chez les Indiennes en surpoids diabétiques.
+[] -   La valeur médiane de `dpf` la plus élevée s'observe chez les Indiennes obèses diabétiques.
+
+[] -   Le groupe le plus nombreux est celui des Indiennes obèses diabétiques.
+[] -   Le groupe le plus nombreux est celui des Indiennes obèses non diabétiques.
+[] -   Les quatre groupes comprennent le même nombre d'individus.}-")
+```

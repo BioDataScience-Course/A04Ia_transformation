@@ -1,6 +1,6 @@
 # Vérifications coral.qmd
-coral <- parse_rmd("../../coral.qmd",
-  allow_incomplete = TRUE, parse_yaml = TRUE)
+coral <- try(parsermd::parse_qmd("../../coral.qmd"))
+expect_true(TRUE, info = coral)
 
 test_that("Le bloc-notes est-il compilé en un fichier final HTML ?", {
   expect_true(is_rendered("coral.qmd"))
@@ -9,7 +9,7 @@ test_that("Le bloc-notes est-il compilé en un fichier final HTML ?", {
   # Vérifiez aussi que ce rendu se réalise sans erreur, sinon, lisez le message
   # qui s'affiche dans l'onglet 'Travaux' et corrigez ce qui ne va pas dans
   # votre document avant de réaliser à nouveau un rendu HTML.
-  # IL EST TRES IMPORTANT QUE VOTRE DOCUMENT COMPILE ! C'est tout de même le but
+  # IL EST TRÈS IMPORTANT QUE VOTRE DOCUMENT COMPILE ! C'est tout de même le but
   # de votre analyse que d'obtenir le document final HTML.
 
   expect_true(is_rendered_current("coral.qmd"))
@@ -30,7 +30,7 @@ test_that("La structure du document est-elle conservée ?", {
   # d'origine dans le dépôt "template" du document (lien au début du fichier
   # README.md).
 
-  expect_true(all(c("setup", "cimport", "cskim", "cskimcomment", "cfact",
+  expect_true(all(c("setup", "ai_comment", "cimport", "cskim", "cskimcomment", "cfact",
     "cfactcomment", "ccount", "cgain", "cclean", "ctab", "ctabcomment")
     %in% rmd_node_label(coral)))
   # Un ou plusieurs labels de chunks nécessaires à l'évaluation manquent
@@ -39,7 +39,7 @@ test_that("La structure du document est-elle conservée ?", {
   # Vérifiez la structure du document par rapport à la version d'origine dans
   # le dépôt "template" du document (lien au début du fichier README.md).
 
-  expect_true(any(duplicated(rmd_node_label(coral))))
+  expect_false(any(duplicated(na.omit(rmd_node_label(coral)))))
   # Un ou plusieurs labels de chunks sont dupliqués
   # Les labels de chunks doivent absolument être uniques. Vous ne pouvez pas
   # avoir deux chunks qui portent le même label. Vérifiez et modifiez le label
@@ -49,20 +49,21 @@ test_that("La structure du document est-elle conservée ?", {
 })
 
 test_that("L'entête YAML a-t-il été complété ?", {
-  expect_true(coral[[1]]$author != "___")
-  expect_true(!grepl("__", coral[[1]]$author))
-  expect_true(grepl("^[^_]....+", coral[[1]]$author))
+  authors <- coral[[1]]@yaml[["author"]]
+  expect_true(authors != "___")
+  expect_true(!grepl("__", authors))
+  expect_true(grepl("^[^_]....+", authors))
   # Le nom d'auteur n'est pas complété ou de manière incorrecte dans l'entête
   # Vous devez indiquer votre nom dans l'entête YAML à la place de "___" et
   # éliminer les caractères '_' par la même occasion.
 
-  expect_true(grepl("[a-z]", coral[[1]]$author))
+  expect_true(grepl("[a-z]", authors))
   # Aucune lettre minuscule n'est trouvée dans le nom d'auteur
   # Avez-vous bien complété le champ 'author' dans l'entête YAML ?
   # Vous ne pouvez pas écrire votre nom tout en majuscules. Utilisez une
   # majuscule en début de nom et de prénom, et des minuscules ensuite.
 
-  expect_true(grepl("[A-Z]", coral[[1]]$author))
+  expect_true(grepl("[A-Z]", authors))
   # Aucune lettre majuscule n'est trouvée dans le nom d'auteur
   # Avez-vous bien complété le champ 'author' dans l'entête YAML ?
   # Vous ne pouvez pas écrire votre nom tout en minuscules. Utilisez une
@@ -96,7 +97,7 @@ test_that("Chunks 'cimport', 'cskim' & 'cskimcomment' : importation des données
   expect_true(is_identical_to_ref("cskimcomment"))
   # L'interprétation des tableaux de description des données est (partiellement)
   # fausse
-  # Vous devez cochez les phrases qui décrivent le graphique d'un 'x' entre les
+  # Vous devez cocher les phrases qui décrivent le graphique d'un 'x' entre les
   # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
   # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
   # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus
@@ -112,7 +113,7 @@ test_that("Chunks 'cfact' & 'cfactcomment' : Conversion en facteur", {
   expect_true(is_identical_to_ref("cfact", "classes"))
   # La nature des variables (classe) dans le tableau `coral` est incorrecte
   # La conversion des variables caractères et des variables numériques ne semble
-  # pas réalisé.
+  # pas réalisée.
 
   expect_true(is_identical_to_ref("cfactcomment"))
   # L'interprétation des tableaux de description des données est (partiellement)
@@ -135,7 +136,7 @@ test_that("Chunks 'ccount' : Tableau résumé de dénombrements des individus", 
   # Ce tableau devrait comprendre 8 lignes.
 })
 
-test_that("Chunks 'cgain' : Calcule de nouvelles variables", {
+test_that("Chunks 'cgain' : Calcul de nouvelles variables", {
   expect_true(is_identical_to_ref("cgain", "names"))
   # Les colonnes dans le tableau `coral` ne sont pas celles attendues.
   # Vous devriez avoir deux colonnes supplémentaires nommées gain_j et gain_std_j

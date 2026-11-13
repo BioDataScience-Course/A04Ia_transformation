@@ -38,6 +38,14 @@ Le jeu de données reprend des mesures de croissance de différentes espèces de
 
 Complétez le fichier `pima.qmd`. Le jeu de données employé provient du package {MASS}. Vous avez à votre disposition une page d'aide pour mieux appréhender les variables de ce dernier (`?MASS::Pima.tr2`).
 
+## Évaluation : un document qui compile, sur GitHub
+
+**Un projet dont le(s) document(s) ne compile(nt) pas à partir de la version présente sur GitHub obtient la note de zéro pour ce travail.** Un document qui compile sur votre ordinateur, mais pas depuis GitHub (fichier oublié dans le commit, push non effectué...), est considéré comme ne compilant pas.
+
 ## Utilisation de l’IA
 
 Dans le cadre de votre travail, vous avez le droit d’être aidé par l’intelligence artificielle. Le chatbot SciViews est disponible dans votre RStudio sur Saturn Cloud via l’addin Help. Il répond aux questions concernant le langage R, les statistiques et la science des données.
+
+Vous restez responsables de tout ce que contiennent vos documents : vérifiez le code et les interprétations proposés par l'IA, et assurez-vous de pouvoir les expliquer.
+
+L'utilisation de l'IA doit être déclarée dans les deux documents (`coral.qmd` et `pima.qmd`), dans la sous-section **Déclaration sur l'utilisation de l'IA** de la partie Matériel et méthodes : cochez la case qui correspond à votre situation dans le chunk `ai_comment` (remplacez `[]` par `[X]`), puis précisez en dessous l'utilisation que vous avez faite de l'IA et citez le ou les modèles employés.

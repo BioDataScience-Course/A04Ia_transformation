@@ -1,6 +1,6 @@
 # Vérifications pima.qmd
-pima <- parse_rmd("../../pima.qmd",
-  allow_incomplete = TRUE, parse_yaml = TRUE)
+pima <- try(parsermd::parse_qmd("../../pima.qmd"))
+expect_true(TRUE, info = pima)
 
 test_that("Le bloc-notes est-il compilé en un fichier final HTML ?", {
   expect_true(is_rendered("pima.qmd"))
@@ -30,8 +30,8 @@ test_that("La structure du document est-elle conservée ?", {
   # d'origine dans le dépôt "template" du document (lien au début du fichier
   # README.md).
 
-  expect_true(all(c("setup", "pimport", "pskim", "pskimcomment", "pbmi_cat",
-    "pcount", "pcountcomment", "psub", "ptab")
+  expect_true(all(c("setup", "ai_comment", "pimport", "pskim", "pskimcomment", "pbmi_cat",
+    "pcount", "pcountcomment", "psub", "ptab", "ptabcomment")
     %in% rmd_node_label(pima)))
   # Un ou plusieurs labels de chunks nécessaires à l'évaluation manquent
   # Ce test échoue si vous avez modifié la structure du document, un ou
@@ -39,7 +39,7 @@ test_that("La structure du document est-elle conservée ?", {
   # Vérifiez la structure du document par rapport à la version d'origine dans
   # le dépôt "template" du document (lien au début du fichier README.md).
 
-  expect_true(any(duplicated(rmd_node_label(pima))))
+  expect_false(any(duplicated(na.omit(rmd_node_label(pima)))))
   # Un ou plusieurs labels de chunks sont dupliqués
   # Les labels de chunks doivent absolument être uniques. Vous ne pouvez pas
   # avoir deux chunks qui portent le même label. Vérifiez et modifiez le label
@@ -49,20 +49,21 @@ test_that("La structure du document est-elle conservée ?", {
 })
 
 test_that("L'entête YAML a-t-il été complété ?", {
-  expect_true(pima[[1]]$author != "___")
-  expect_true(!grepl("__", pima[[1]]$author))
-  expect_true(grepl("^[^_]....+", pima[[1]]$author))
+  authors <- pima[[1]]@yaml[["author"]]
+  expect_true(authors != "___")
+  expect_true(!grepl("__", authors))
+  expect_true(grepl("^[^_]....+", authors))
   # Le nom d'auteur n'est pas complété ou de manière incorrecte dans l'entête
   # Vous devez indiquer votre nom dans l'entête YAML à la place de "___" et
   # éliminer les caractères '_' par la même occasion.
 
-  expect_true(grepl("[a-z]", pima[[1]]$author))
+  expect_true(grepl("[a-z]", authors))
   # Aucune lettre minuscule n'est trouvée dans le nom d'auteur
   # Avez-vous bien complété le champ 'author' dans l'entête YAML ?
   # Vous ne pouvez pas écrire votre nom tout en majuscules. Utilisez une
   # majuscule en début de nom et de prénom, et des minuscules ensuite.
 
-  expect_true(grepl("[A-Z]", pima[[1]]$author))
+  expect_true(grepl("[A-Z]", authors))
   # Aucune lettre majuscule n'est trouvée dans le nom d'auteur
   # Avez-vous bien complété le champ 'author' dans l'entête YAML ?
   # Vous ne pouvez pas écrire votre nom tout en minuscules. Utilisez une
@@ -100,11 +101,11 @@ test_that("Chunks 'pbmi_cat' : Découpage en classe de la variable bmi", {
 
   expect_true(is_identical_to_ref("pbmi_cat", "classes"))
   # La nature des variables (classe) dans le tableau `pima` est incorrecte
-  # La dernière variable créé doit être une variable qualitative ordonnée.
+  # La dernière variable créée doit être une variable qualitative ordonnée.
 })
 
 test_that("Chunks 'pcount' & 'pcountcomment' : graphique en barres des catégories d'IMC", {
-  expect_true(is_identical_to_ref("pcount"))
+  expect_true(is_equal_to_ref("pcount"))
   # Le graphique en barres produit par 'pcount' n'est pas celui attendu
   # Avez-vous bien employé des aplats de couleurs pour le diabète ? Lisez bien
   # la consigne et corrigez l'erreur, puis refaites un 'Rendu' du document
@@ -149,9 +150,12 @@ test_that("Chunks 'ptab' : Tableau résumé pour les des personnes diabétiques 
   # des bmi_cat et de diabete.
 })
 
-test_that("Les commentaires sont-ils complétés pour le tableau résumé 'ptab'", {
-  expect_true(!(rmd_select(pima, by_section("Analyses")) |>
-    as_document() |> grepl("^- +\\.+ *$", x = _) |> any()))
-  # Vous devez compléter la liste d'observations sous le tableau résumé obtenu
-  # au chunk 'ptab'. Si le test échoue, ce n'est pas encore fait.
+test_that("Chunk 'ptabcomment' : interprétation du tableau résumé", {
+  expect_true(is_identical_to_ref("ptabcomment"))
+  # L'interprétation du tableau résumé est (partiellement) fausse
+  # Vous devez cocher les phrases qui décrivent le tableau d'un 'x' entre les
+  # crochets [] -> [x]. Ensuite, vous devez recompiler la version HTML du
+  # bloc-notes (bouton 'Rendu') sans erreur pour réactualiser les résultats.
+  # Assurez-vous de bien comprendre ce qui est coché ou pas : vous n'aurez plus
+  # cette aide plus tard dans le travail de groupe ou les interrogations !
 })
